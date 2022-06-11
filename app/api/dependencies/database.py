@@ -18,7 +18,7 @@ loop = asyncio.get_event_loop()
 #            Password=mypass'
 dsn = 'Driver=SQLite3;Database=database/chinook.db'
 
-async def _get_cursor(self) -> Cursor:
+async def _get_cursor() -> Cursor:
         
     try:
         async with aioodbc.connect(dsn=dsn, loop=loop, executor=ThreadPoolExecutor(max_workers=50)) as conn:
