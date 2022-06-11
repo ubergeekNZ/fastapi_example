@@ -6,7 +6,7 @@ from app.api.routes.invoices import api as invoices
 from app.api.routes.playlists import api as playlists
 
 router = APIRouter()
-# router.include_router(authentication.router, tags=["authentication"], prefix="/users")
+
 router.include_router(albums.router, tags=["albums"], prefix="/albums")
 router.include_router(artists.router, tags=["artists"], prefix="/artist")
 router.include_router(customers.router, tags=["customers"], prefix="/customer")

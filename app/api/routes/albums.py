@@ -10,15 +10,6 @@ from app.resources import strings
 
 router = APIRouter()
 
-# @router.get(
-#     "",
-#     response_model=ListOfCommentsInResponse,
-#     name="comments:get-comments-for-article",
-# )
-# @router.get("/", status_code=200) 
-# async def root():
-#     return {"message": "Hello World"}
-
 @router.get("", response_model=ListOfAlbumsInResponse, name="albums:get-all")
 async def get_all(
     album_repo: AlbumRepository = Depends(get_repository(AlbumRepository)),

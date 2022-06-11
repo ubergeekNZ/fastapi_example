@@ -1,4 +1,14 @@
-# Example of FastAPI
+Example of FastAPI
+------------------
+
+This example is based on the following github project but modified to use the chinook database and aiodbc. (Still WIP)
+
+https://github.com/nsidnev/fastapi-realworld-example-app
+
+An explanation of the architecture and repository pattern is decribed in this blog.
+
+https://www.jeffastor.com/blog/hooking-fastapi-endpoints-up-to-a-postgres-database
+
 
 Run
 ---
