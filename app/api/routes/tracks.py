@@ -18,6 +18,6 @@ async def get_all(
     offset: int = Query(DEFAULT_TRACKS_OFFSET, ge=0),
     track_repo: TrackRepository = Depends(get_repository(TrackRepository)),
 ) -> ListOfTracksInResponse:
-    tracks = await track_repo.get_all()
+    tracks = await track_repo.get_all(limit=limit, offset=offset)
     return ListOfTracksInResponse(tracks=tracks)
 

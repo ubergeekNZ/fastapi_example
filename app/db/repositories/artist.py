@@ -2,7 +2,7 @@ from uuid import UUID
 from typing import Dict
 from aioodbc.cursor import Cursor
 from app.db.repositories.base import BaseRepository
-
+from pypika import Query, Table, Field
 
 # TODO - create queries
 
@@ -11,13 +11,10 @@ class ArtistRepository(BaseRepository):
     def __init__(self, cursor: Cursor) -> None:
         super().__init__(cursor)
 
-    async def get_all(self):
-        query = '''
-                SELECT *
-                FROM artist;
-                '''
+    async def get_all(self, offset, limit):
+        q = Query.from_('artist').select('*')[offset:limit]
         db = self.cursor
-        await db.execute(query)
+        await db.execute(str(q)+';')
         records = await db.fetchall()
         out = []
         for record in records:
