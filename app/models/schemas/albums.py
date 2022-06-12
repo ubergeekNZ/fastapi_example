@@ -1,8 +1,7 @@
-from typing import List
-
+from typing import List, Optional
 from app.models.domain.albums import Album
 from app.models.schemas.rwschema import RWSchema
-
+from pydantic import BaseModel
 
 DEFAULT_ALBUM_LIMIT = 20
 DEFAULT_ALBUM_OFFSET = 0
@@ -14,4 +13,9 @@ class AlbumInResponse(RWSchema):
 
 
 class AlbumInCreate(RWSchema):
-    body: str
+    album: Album
+
+class AlbumInUpdate(BaseModel):
+    album_id: Optional[int]=None
+    title: Optional[str] = None
+    artist_id: Optional[int]=None

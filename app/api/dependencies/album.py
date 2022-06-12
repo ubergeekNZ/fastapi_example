@@ -12,11 +12,11 @@ from app.models.schemas.albums import (
 from app.resources import strings
 
 async def get_album_by_id_from_path(
-    id: int,
+    album_id: int,
     album_repo: AlbumRepository = Depends(get_repository(AlbumRepository)),
 ) -> Album:
     try:
-        return await album_repo.get_by_id(id=id)
+        return await album_repo.get_by_id(id=album_id)
     except EntityDoesNotExist:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

@@ -2,6 +2,9 @@ from uuid import UUID
 from typing import Dict
 from aioodbc.cursor import Cursor
 from app.db.repositories.base import BaseRepository
+from app.db.repositories.base import BaseRepository
+from app.db.errors import EntityDoesNotExist
+from app.models.domain.genres import Genre
 from pypika import Query, Table, Field
 
 # TODO - create queries
@@ -21,18 +24,50 @@ class GenreRepository(BaseRepository):
             out.append(record)
         return out        
 
-    async def get_by_id(self, id: UUID):
+    async def get_by_id(self, id: int) -> Genre:
+        genre = Table('genre')
+        q = Query.from_('genre').select('*').where(
+            genre.genre_id == id
+        )
+        db = self.cursor
+        await db.execute(str(q)+';')
+        record = await db.fetchall()
+        if len(record):
+            return Genre(genre_id=record[0][0], name=record[0][1])
+        else:
+            raise EntityDoesNotExist("genre with id {0} does not exist".format(id))
+
+    async def create_genre(self, data: Genre):
+        genre = Table('genre')
+        q = Query.into(genre).insert(data.genre_id, data.name)
+        db = self.cursor
+        await db.execute(str(q)+";")
+        q = Query.from_('genre').select('*').where(
+            genre.genre_id == data.genre_id
+        )
+        await db.execute(str(q)+";")
+        record = await db.fetchone()
+        if len(record):
+            return Genre(genre_id=record[0], name=record[1])
+        else:
+            raise EntityDoesNotExist("genre with id {0} does not exist".format(id))
+
+    async def update(self, data: Genre):
+
+        # customers = Table('customers')
+
+        # Query.update(customers).set(customers.last_login, '2017-01-01 10:00:00')
+
+        # Query.update(customers).set(customers.lname, 'smith').where(customers.id == 10)
         pass
 
-    async def create(self, data: Dict):
+    async def delete(self, data: Genre):
+        genre = Table('genre')
+        # t = Table("abc")
+        # q = Query.from_(
+        #     t.for_portion(t.valid_period.from_to('2020-01-01', '2020-02-01'))
+        # ).delete()
         pass
-
-    async def update(self, id: UUID, data: Dict):
-        pass
-
-    async def delete(self, id: UUID):
-        pass
-
 
 
 
